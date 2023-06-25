@@ -184,6 +184,13 @@ SetCapsLockState, AlwaysOff
         else Send, {ASC 0196}			    ; Ä
     return
 
+    RCtrl & a::
+        GetKeyState, state, Shift
+        if state = U
+        SendInput {U+00E5}			    ; å
+        else Send, {U+00C5}			    ; Å
+    return
+
     CapsLock & o::
         GetKeyState, state, Shift
         if state = U
@@ -217,6 +224,13 @@ SetCapsLockState, AlwaysOff
         if state = U
         SendInput {U+0142}                  ; ł
         else Send, {U+0141}                 ; Ł
+    return
+
+    CapsLock & n::
+        GetKeyState, state, Shift
+        if state = U
+        SendInput {ASC 0241}                  ; ñ
+        else Send, {ASC 0209}                 ; Ñ
     return
 
     CapsLock & g:: 
@@ -295,6 +309,21 @@ SetCapsLockState, AlwaysOff
             accent=circonflexe            ; set accent to circonflexe 
 
         Gosub,TurnAccentsOn
+    Return
+
+    SetInputLanguage(Lang)
+    {
+        WinExist("A")
+        ControlGetFocus, CtrlInFocus
+        PostMessage, 0x50, 0, % Lang, %CtrlInFocus%
+    }
+
+    CapsLock & 2::
+        SetInputLanguage(0x0422)
+    Return
+
+    CapsLock & 1::
+        SetInputLanguage(0x0409)
     Return
 
 Gosub,TurnAccentsOff
